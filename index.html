@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELT | Advanced Electrical Technology & Projects</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4285F4;
+            --primary-dark: #3367D6;
+            --secondary: #f39c12;
+            --dark: #2c3e50;
+            --light: #f8f9fa;
+            --gray: #555;
+            --white: #ffffff;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background: var(--light);
+            color: #1b1616;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 5%;
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        nav.scrolled {
+            padding: 0.8rem 5%;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-right: 10px;
+        }
+
+        .logo span {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links li {
+            margin-left: 2rem;
+            position: relative;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 5px 0;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Login Button Styles */
+        .login-btn {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            overflow: hidden;
+            position: relative;
+            margin-left: 1rem;
+        }
+
+        .login-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(66, 133, 244, 0.3);
+        }
+
+        .login-btn i {
+            margin-right: 8px;
+            transition: var(--transition);
+        }
+
+        .login-btn:hover i {
+            transform: translateX(3px);
+        }
+
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .login-btn:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* Improved Service Dropdown Styles */
+        .service-dropdown-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-left: 2rem;
+        }
+
+        .service-dropdown-btn {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-dropdown-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .service-dropdown-btn i {
+            margin-left: 8px;
+            transition: var(--transition);
+        }
+
+        .service-dropdown-btn.active i {
+            transform: rotate(180deg);
+        }
+
+        .service-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 220px;
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: var(--transition);
+            padding: 10px 0;
+        }
+
+        .service-dropdown-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .service-dropdown-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--dark);
+            text-decoration: none;
+            transition: var(--transition);
+            border-left: 3px solid transparent;
+        }
+
+        .service-dropdown-item:hover {
+            background: rgba(66, 133, 244, 0.1);
+            border-left-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .service-dropdown-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .service-dropdown-header {
+            padding: 10px 20px;
+            font-weight: 600;
+            color: var(--primary);
+            border-bottom: 1px solid #eee;
+            margin-bottom: 5px;
+        }
+
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        /* Login Modal Styles */
+        .login-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .login-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .login-modal {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 2.5rem;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            transform: translateY(50px) scale(0.9);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .login-modal-overlay.active .login-modal {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        .login-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .login-modal-header h3 {
+            color: #1a1a1a;
+            font-size: 1.5rem;
+        }
+
+        .close-login-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+
+        .close-login-modal:hover {
+            color: var(--primary);
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.2);
+        }
+
+        .submit-button {
+            padding: 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .submit-button:hover {
+            background: var(--primary-dark);
+        }
+
+        .create-account-btn, .back-to-login-btn {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+        }
+
+        .create-account-btn:hover, .back-to-login-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .forgot-password a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        /* Registration Form Styles */
+        .registration-form {
+            display: none;
+            flex-direction: column;
+        }
+
+        .name-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .name-group .form-group {
+            flex: 1;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .form-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10rem 5% 6rem;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+            min-height: 100vh;
+        }
+
+        .hero-content {
+            flex: 1;
+            padding-right: 2rem;
+            animation: fadeInLeft 1s ease;
+        }
+
+        .hero-content h2 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: #1a1a1a;
+            line-height: 1.2;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            color: var(--gray);
+            max-width: 600px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 4px 10px rgba(66, 133, 244, 0.3);
+        }
+
+        .cta-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(66, 133, 244, 0.4);
+        }
+
+        .hero-image {
+            flex: 1;
+            text-align: center;
+            animation: fadeInRight 1s ease;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            width: 100%;
+            height: auto;
+            transition: var(--transition);
+        }
+
+        .hero-image img:hover {
+            transform: scale(1.02);
+        }
+
+        /* Services Section */
+        .services {
+            padding: 6rem 5%;
+            background: var(--white);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #1a1a1a;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            margin-top: 2rem;
+        }
+
+        .service-card {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 2.5rem 2rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-align: center;
+            border-top: 4px solid var(--primary);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+        }
+
+        .service-card p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .service-button {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .service-button:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Projects Section */
+        .projects {
+            padding: 6rem 5%;
+            background: var(--light);
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 2rem;
+        }
+
+        .project-card {
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .project-card:hover .project-image img {
+            transform: scale(1.1);
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #1a1a1a;
+        }
+
+        .project-card p {
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        .project-link {
+            display: inline-block;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .project-link:hover {
+            color: var(--primary-dark);
+            transform: translateX(5px);
+        }
+
+        /* Research Section */
+        .research {
+            padding: 6rem 5%;
+            background: var(--white);
+        }
+
+        .research-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .research-card {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-left: 4px solid var(--primary);
+        }
+
+        .research-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .research-card h3 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+        }
+
+        .research-card p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .research-card ul {
+            margin-left: 1.5rem;
+            color: var(--gray);
+        }
+
+        .research-card li {
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        .research-card li::before {
+            content: '▸';
+            color: var(--primary);
+            position: absolute;
+            left: -1rem;
+        }
+
+        /* Footer */
+        .site-footer {
+            background-color: var(--dark);
+            color: #ecf0f1;
+            padding: 60px 0 0;
+        }
+
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 40px;
+            padding: 0 15px;
+        }
+
+        .footer-section h3 {
+            color: var(--secondary);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--secondary);
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        .footer-section a {
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-section a:hover {
+            color: var(--secondary);
+        }
+
+        .footer-section i {
+            margin-right: 10px;
+            color: var(--secondary);
+            width: 20px;
+            text-align: center;
+        }
+
+        .map-wrapper {
+            background: #fff;
+            padding: 5px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .footer-bottom {
+            background-color: #1a252f;
+            padding: 25px 0;
+            text-align: center;
+        }
+
+        .footer-bottom-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .copyright {
+            margin: 10px 0;
+        }
+
+        .footer-social a {
+            color: #ecf0f1;
+            margin: 0 10px;
+            font-size: 1.3rem;
+            transition: var(--transition);
+        }
+
+        .footer-social a:hover {
+            color: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        /* Animations */
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Adjustments for mobile */
+        @media (max-width: 992px) {
+            .hero {
+                flex-direction: column;
+                padding: 8rem 5% 4rem;
+                text-align: center;
+            }
+            
+            .hero-content {
+                padding-right: 0;
+                margin-bottom: 3rem;
+            }
+            
+            .hero-content h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--white);
+                flex-direction: column;
+                padding: 1rem 0;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links li {
+                margin: 0;
+                text-align: center;
+                padding: 0.8rem 0;
+            }
+            
+            .service-dropdown-wrapper {
+                margin: 1rem 0 0;
+                width: 100%;
+            }
+            
+            .service-dropdown-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .service-dropdown-menu {
+                width: 100%;
+                position: static;
+                transform: none;
+                margin-top: 10px;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            
+            .login-btn {
+                margin: 1rem 0 0;
+                width: 80%;
+                justify-content: center;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .name-group {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .footer-section {
+                flex: 100%;
+            }
+            
+            .footer-bottom-container {
+                flex-direction: column;
+            }
+            
+            .hero-content h2 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-content h2 {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .login-modal {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="logo">
+            <h1>ELT</h1>
+            <span>Advanced Electrical Technology & Projects</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#research">Research</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <div class="service-dropdown-wrapper">
+                <button class="service-dropdown-btn" id="serviceDropdownBtn">
+                    Our Services <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="service-dropdown-menu" id="serviceDropdownMenu">
+                    <div class="service-dropdown-header">What We Do</div>
+                    <a href="office nyanza nyarugenge.html" class="service-dropdown-item" data-service="installation">
+                        <i class="fas fa-bolt"></i> Installation
+                    </a>
+                    <a href="office kigoma.html" class="service-dropdown-item" data-service="maintenance">
+                        <i class="fas fa-tools"></i> Maintenance
+                    </a>
+                    <a href="office busoro.html" class="service-dropdown-item" data-service="troubleshooting">
+                        <i class="fas fa-search"></i> Troubleshooting
+                    </a>
+                    <a href="office muyira.html" class="service-dropdown-item" data-service="repair">
+                        <i class="fas fa-wrench"></i> Repair
+                    </a>
+                </div>
+            </div>
+            <li>
+                <form action="ally.html">
+                <button class="login-btn" id="loginBtn">
+                    <i class="fas fa-user"></i> Logout
+                </button>
+                </form>
+            </li>
+        </ul>
+        <div class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+
+    <!-- Login Modal -->
+    <div class="login-modal-overlay" id="loginModal">
+        <div class="login-modal">
+            <div class="login-modal-header">
+                <h3 id="loginTitle">Login to Your Account</h3>
+                <button class="close-login-modal" id="closeLoginModal">&times;</button>
+            </div>
+            
+            <!-- Login Form -->
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="login-email">Email Address</label>
+                    <input type="email" id="login-email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" class="form-control" required>
+                </div>
+                
+                <button type="submit" class="submit-button">Login</button>
+                <button type="button" class="create-account-btn" id="showRegistrationBtn">Create Account</button>
+                <div class="forgot-password">
+                    <a href="#">Forgot Password?</a>
+                </div>
+            </form>
+            
+            <!-- Registration Form -->
+            <form class="registration-form" id="registrationForm">
+                <div class="name-group">
+                    <div class="form-group">
+                        <label for="first-name">First Name</label>
+                        <input type="text" id="first-name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="last-name">Last Name</label>
+                        <input type="text" id="last-name" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="reg-email">Email Address/Phone Number</label>
+                    <input type="email" id="reg-email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-password">Password</label>
+                    <input type="password" id="reg-password" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" class="form-control" required>
+                </div>
+                
+                <button type="submit" class="submit-button">Create Account</button>
+                <button type="button" class="back-to-login-btn" id="backToLoginBtn">Back to Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h2>Building the Future, Today</h2>
+            <p>Developing and providing reliable and affordable skills while ensuring safe, efficient, and reliable electrical systems for residential, commercial, and industrial applications.</p>
+            <a href="#services" class="cta-button">Our Services</a>
+        </div>
+        <div class="hero-image">
+            <img src="./undefined.jpg" alt="Electrical Systems">
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <h2 class="section-title">Our Services</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <h3>Maintenance</h3>
+                <p>Regular inspection and upkeep of electrical systems to ensure optimal performance and prevent potential issues before they occur.</p>
+                <a href="maitenance.html" class="service-button">Request Service</a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3>Installation</h3>
+                <p>Professional installation of electrical systems for residential, commercial, and industrial applications with safety as our priority.</p>
+                <a href="insatallation.html" class="service-button">Request Service</a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3>Troubleshooting</h3>
+                <p>Identifying and resolving electrical issues with advanced diagnostic tools and extensive technical expertise.</p>
+                <a href="troubleshooting.html" class="service-button">Request Service</a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-wrench"></i>
+                </div>
+                <h3>Repair</h3>
+                <p>Efficient and reliable repair services for all types of electrical systems, components, and equipment.</p>
+                <a href="repair.html" class="service-button">Request Service</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects" id="projects">
+        <h2 class="section-title">Featured Projects</h2>
+        <div class="project-grid">
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="./B1.jpg" alt="Domestic Installation">
+                </div>
+                <div class="project-content">
+                    <h3>Domestic Installation</h3>
+                    <p>Complete electrical installation solutions for residential properties with safety and efficiency.</p>
+                    <a href="#" class="project-link">Learn More →</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="./Prasun Barua _ Short Circuit and Fault Current Analysis in Solar PV Systems.jpg" alt="Industrial Installation">
+                </div>
+                <div class="project-content">
+                    <h3>Industrial Installation</h3>
+                    <p>Robust electrical systems for industrial facilities with high reliability requirements.</p>
+                    <a href="#" class="project-link">Learn More →</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="./Модульные контакторы на змінний струм для безопасного управления оборудованием.jpg" alt="Transmission Line Installation">
+                </div>
+                <div class="project-content">
+                    <h3>Transmission Line Installation</h3>
+                    <p>High-voltage transmission systems for efficient power distribution over long distances.</p>
+                    <a href="#" class="project-link">Learn More →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Research Section -->
+    <section class="research" id="research">
+        <h2 class="section-title">Research & Development</h2>
+        <div class="research-content">
+            <div class="research-card">
+                <h3>Smart Grid Technology</h3>
+                <p>Our research focuses on developing intelligent electrical grids that optimize energy distribution and consumption patterns.</p>
+                <ul>
+                    <li>Real-time monitoring and control systems</li>
+                    <li>Integration of renewable energy sources</li>
+                    <li>Advanced metering infrastructure</li>
+                    <li>Demand response optimization</li>
+                </ul>
+            </div>
+            <div class="research-card">
+                <h3>Energy Efficiency Solutions</h3>
+                <p>We're developing innovative approaches to reduce energy consumption while maintaining performance.</p>
+                <ul>
+                    <li>Power factor correction techniques</li>
+                    <li>LED lighting optimization</li>
+                    <li>Energy management systems</li>
+                    <li>Building automation integration</li>
+                </ul>
+            </div>
+            <div class="research-card">
+                <h3>Renewable Energy Integration</h3>
+                <p>Researching methods to seamlessly incorporate solar, wind, and other renewables into existing power systems.</p>
+                <ul>
+                    <li>Grid-tied solar inverters</li>
+                    <li>Battery storage optimization</li>
+                    <li>Microgrid development</li>
+                    <li>Hybrid energy systems</li>
+                </ul>
+            </div>
+            <div class="research-card">
+                <h3>Electrical Safety Innovations</h3>
+                <p>Developing advanced safety mechanisms to protect both electrical systems and users.</p>
+                <ul>
+                    <li>Arc fault detection technology</li>
+                    <li>Ground fault protection systems</li>
+                    <li>Smart circuit breakers</li>
+                    <li>Remote safety monitoring</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer" id="contact">
+        <div class="footer-container">
+            <div class="footer-section contact-info">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li>
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:rwegoally95@gmail.com">rwegoally95@gmail.com</a>
+                        <a href="mailto:iragenajeandamour02@gmail.com">iragenajeandamour02@gmail.com</a>
+                    </li>
+                    <li>
+                        <i class="fas fa-phone"></i>
+                        <a href="tel:+250795494352">+250 795494352</a>
+                        <a href="tel:+250796352921">+250 796352921</a>
+                    </li>
+                    <li>
+                        <i class="fas fa-map-marker-alt"></i>
+                        123 Business RAY, Suite 100<br>
+                        KIGALI CITY, ST 12345
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="footer-section quick-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#research">Research</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section social-links">
+                <h3>Follow Us</h3>
+                <ul>
+                    <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+                    <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+                    <li><a href="#"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
+                    <li><a href="#"><i class="fab fa-twitter"></i> X (Twitter)</a></li>
+                    <li><a href="#"><i class="fas fa-blog"></i> Blog</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section map-container">
+                <h3>Our Location</h3>
+                <div class="map-wrapper">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3987.495624557281!2d30.05919677478222!3d-1.953506998045595!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19dca4258edf37f1%3A0x6e4026ceaa803d1e!2sKigali%2C%20Rwanda!5e0!3m2!1sen!2sus!4v1691923456789!5m2!1sen!2sus" 
+                            width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="footer-bottom-container">
+                <div class="copyright">
+                    <p>&copy; 2023 Advanced Electrical Technology & Projects. All rights reserved.</p>
+                </div>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // Improved Service Dropdown Functionality
+        const serviceDropdownBtn = document.getElementById('serviceDropdownBtn');
+        const serviceDropdownMenu = document.getElementById('serviceDropdownMenu');
+        const serviceDropdownItems = document.querySelectorAll('.service-dropdown-item');
+
+        // Toggle dropdown visibility
+        serviceDropdownBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            serviceDropdownMenu.classList.toggle('active');
+            serviceDropdownBtn.classList.toggle('active');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function() {
+            serviceDropdownMenu.classList.remove('active');
+            serviceDropdownBtn.classList.remove('active');
+        });
+
+        // Service selection from dropdown - Now directly links to pages
+        serviceDropdownItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                // Let the link work naturally, just close the dropdown
+                serviceDropdownMenu.classList.remove('active');
+                serviceDropdownBtn.classList.remove('active');
+            });
+        });
+
+        // Login Modal Functionality
+        const loginBtn = document.getElementById('loginBtn');
+        const loginModal = document.getElementById('loginModal');
+        const closeLoginModal = document.getElementById('closeLoginModal');
+        const loginForm = document.getElementById('loginForm');
+        const registrationForm = document.getElementById('registrationForm');
+        const showRegistrationBtn = document.getElementById('showRegistrationBtn');
+        const backToLoginBtn = document.getElementById('backToLoginBtn');
+        const loginTitle = document.getElementById('loginTitle');
+
+        function openLoginModal() {
+            loginModal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+            // Show login form by default
+            showLoginForm();
+        }
+
+        function closeLoginModalFunc() {
+            loginModal.classList.remove('active');
+            document.body.style.overflow = 'auto'; // Re-enable scrolling
+        }
+
+        function showLoginForm() {
+            loginForm.style.display = 'flex';
+            registrationForm.style.display = 'none';
+            loginTitle.textContent = 'Login to Your Account';
+        }
+
+        function showRegistrationForm() {
+            loginForm.style.display = 'none';
+            registrationForm.style.display = 'flex';
+            loginTitle.textContent = 'Create New Account';
+        }
+
+        loginBtn.addEventListener('click', openLoginModal);
+        closeLoginModal.addEventListener('click', closeLoginModalFunc);
+
+        // Show registration form when "Create Account" is clicked
+        showRegistrationBtn.addEventListener('click', showRegistrationForm);
+
+        // Back to login form
+        backToLoginBtn.addEventListener('click', showLoginForm);
+
+        // Close login modal when clicking outside
+        loginModal.addEventListener('click', function(e) {
+            if (e.target === loginModal) {
+                closeLoginModalFunc();
+            }
+        });
+
+        // Login form submission
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const loginData = {
+                email: document.getElementById('login-email').value,
+                password: document.getElementById('login-password').value
+            };
+            
+            // In a real application, you would send this data to a server
+            console.log('Login Request:', loginData);
+            
+            // Show success message
+            alert('Login successful! Welcome back.');
+            
+            // Reset form and close modal
+            loginForm.reset();
+            closeLoginModalFunc();
+        });
+
+        // Registration form submission
+        registrationForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const registrationData = {
+                firstName: document.getElementById('first-name').value,
+                lastName: document.getElementById('last-name').value,
+                email: document.getElementById('reg-email').value,
+                password: document.getElementById('reg-password').value,
+                confirmPassword: document.getElementById('confirm-password').value
+            };
+            
+            // Check if passwords match
+            if (registrationData.password !== registrationData.confirmPassword) {
+                alert('Passwords do not match. Please try again.');
+                return;
+            }
+            
+            // In a real application, you would send this data to a server
+            console.log('Registration Request:', registrationData);
+            
+            // Show success message
+            alert('Account created successfully! You can now login.');
+            
+            // Reset form and show login form
+            registrationForm.reset();
+            showLoginForm();
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    // Close mobile menu if open
+                    document.querySelector('.nav-links').classList.remove('active');
+                    
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
