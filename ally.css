@@ -1,0 +1,151 @@
+ <div class="service-dropdown-wrapper">
+                <button class="service-dropdown-btn" id="serviceDropdownBtn">
+                    Our Services <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="service-dropdown-menu" id="serviceDropdownMenu">
+                    <div class="service-dropdown-header">What We Do</div>
+                    <a href="#" class="service-dropdown-item" data-service="maintenance">
+                        <i class="fas fa-tools"></i> Maintenance
+                    </a>
+                    <a href="#" class="service-dropdown-item" data-service="installation">
+                        <i class="fas fa-bolt"></i> Installation
+                    </a>
+                    <a href="#" class="service-dropdown-item" data-service="troubleshooting">
+                        <i class="fas fa-search"></i> Troubleshooting
+                    </a>
+                    <a href="#" class="service-dropdown-item" data-service="repair">
+                        <i class="fas fa-wrench"></i> Repair
+                    </a>
+                </div>
+            </div>
+        </ul>
+        <div class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+
+    <!-- Rest of your HTML remains the same -->
+
+    <script>
+        // Improved Service Dropdown Functionality
+        const serviceDropdownBtn = document.getElementById('serviceDropdownBtn');
+        const serviceDropdownMenu = document.getElementById('serviceDropdownMenu');
+        const serviceDropdownItems = document.querySelectorAll('.service-dropdown-item');
+
+        // Toggle dropdown visibility
+        serviceDropdownBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            serviceDropdownMenu.classList.toggle('active');
+            serviceDropdownBtn.classList.toggle('active');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function() {
+            serviceDropdownMenu.classList.remove('active');
+            serviceDropdownBtn.classList.remove('active');
+        });
+
+        // Service selection from dropdown
+        serviceDropdownItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                const service = this.getAttribute('data-service');
+                openServiceModal(formatServiceName(service));
+                serviceDropdownMenu.classList.remove('active');
+                serviceDropdownBtn.classList.remove('active');
+            });
+        });
+
+        // Helper function to format service name
+        function formatServiceName(service) {
+            return service.charAt(0).toUpperCase() + service.slice(1);
+        }
+
+        // Rest of your JavaScript remains the same
+        // Navigation scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // Service modal functionality
+        const serviceModal = document.getElementById('serviceModal');
+        const closeModal = document.getElementById('closeModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const selectedServiceInput = document.getElementById('selectedService');
+        const serviceForm = document.getElementById('serviceForm');
+
+        function openServiceModal(service) {
+            modalTitle.textContent = `Request ${service} Service`;
+            selectedServiceInput.value = service;
+            serviceModal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        }
+
+        function closeServiceModal() {
+            serviceModal.classList.remove('active');
+            document.body.style.overflow = 'auto'; // Re-enable scrolling
+        }
+
+        closeModal.addEventListener('click', closeServiceModal);
+
+        // Close modal when clicking outside
+        serviceModal.addEventListener('click', function(e) {
+            if (e.target === serviceModal) {
+                closeServiceModal();
+            }
+        });
+
+        // Form submission
+        serviceForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = {
+                service: selectedServiceInput.value,
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value
+            };
+            
+            // In a real application, you would send this data to a server
+            console.log('Service Request:', formData);
+            
+            // Show success message
+            alert(`Thank you for your ${formData.service} service request! We will contact you soon.`);
+            
+            // Reset form and close modal
+            serviceForm.reset();
+            closeServiceModal();
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    // Close mobile menu if open
+                    document.querySelector('.nav-links').classList.remove('active');
+                    
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
